@@ -9,11 +9,11 @@ pretext: false
 # About Daniel
 
 <img src="/assets/images/profile.jpg" class="profile" draggable='false' />
-My name is Daniel Tomlinson, and I'm a developer/designer. I'm interested in how things work, and how we can improve things for people.
+My name is Daniel Tomlinson, and I'm a developer/designer, as well as a Student at Allestre Woodlands school. I'm interested in how things work, and how we can improve peoples lives using technlogoy.
 
-I live and work in Derby, England - currently as an iOS engineer and Back-end Web developer with various companies, agencies, start-ups and individuals. I also develop my own products.
+I live in Derby, England - currently as an iOS engineer and Back-end Web developer with various companies, agencies, start-ups and individuals. I also develop my own things.
 
-I create experiences for people, to improve the ways in which we interact with technology and to create genuinely useful software and products that can positively affect peoples lives in various ways such as through making tasks easier, improving inter-personal relationships, and widening access to data and information.
+I try create experiences for people, to improve the ways in which we interact with technology and to create genuinely useful software and products that can positively affect peoples lives in various ways such as through making tasks easier, improving inter-personal relationships, and widening access to data and information.
 
 When not developing, I take part in various other activities, such as speaking at meetups and conferences, walking, cycling, gaming and writing or just hanging out with friends.
 
