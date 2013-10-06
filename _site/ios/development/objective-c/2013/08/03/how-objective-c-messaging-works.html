@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>How Objective-C messaging works - Daniel Tomlinson</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:js /assets/scripts/vendor/modernizr.js -->
+        <script src="/bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:css /assets/styles/main.css -->
+        <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css">
+        <link rel="stylesheet" href="/assets/styles/h5bp.css">
+        <link rel="stylesheet" href="/bower_components/font-awesome/build/assets/font-awesome/css/font-awesome.css">
+        <!-- endbuild -->
+</head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="pagewrap">
+        <div class="wrapper">
+        
+        <header class="page-head">
+            
+            <a href="/" title="Return to homepage" class="site-name">
+               <h1>Daniel Tomlinson</h1>
+            </a>
+            
+            <ul class="nav  site-nav">
+                <li class=""><a href="/">Home</a></li><!--
+             --><li class=""><a href="/about/">About</a></li><!--
+             --><li class=""><a href="/contact/">Contact</a></li>
+            </ul>
+            
+        </header><!-- /page-head -->
+        <hr />
+        </div><!-- /wrapper -->
+        
+        <div class="wrapper about">
+                Daniel is an <span>iOS Engineer</span>, <span>Back-end Web Developer</span>, <span>Writer</span> and <span>Speaker</span>, from the UK; He creates new experiences for people and is currently working to create a better future through technology with ProjectHermes, and is <a href="mailto:daniel@shadowdevelopments.co.uk?subject=Let%E2%80%99s%20work%20together">available</a> for work from the 1st of November.
+                <hr />
+        </div>
+        
+        <div class="wrapper">
+<div id="content">
+<p>I have always been interested in how the low level of programming languages work, and lots a fair few people on IRC and Twitter have asked how messaging in objective-c works, so I&#8217;ve decided to blog about it!</p>
+
+<p>To understand how messaging in objective-c works, we first need to understand how its objects are represented in memory.</p>
+
+<p>To understand what an object really is, we need to go to the lowest-level of the object - its representation in memory, and to understand the Objective-C memory model, you must first understand that of C.</p>
+
+<p>So, how is a C object represented in memory?</p>
+
+<pre><code>int i;</code></pre>
+
+<p>would possibly look like this:</p>
+
+<pre><code>i = 0xDEADBEEF
+
+[DE] [AD] [BE] [EF]</code></pre>
+
+<p>in C on a 32-bit machine, however, this is Big-Endian, on an intel mac, it would look like this (as intel macs are little-endian):</p>
+
+<pre><code>[EF] [BE] [AD] [DE]</code></pre>
+
+<p>However, in this post, we&#8217;ll use big-endian, as it is easier to read.</p>
+
+<p>The C Struc for a single int, looks something like this:</p>
+
+<pre><code>typedef struct _IntContainer {
+  int i;
+} IntContainer;
+
+InctContainer ic;
+
+ic.i = 0xDEADBEEF;</code></pre>
+
+<p>this is important, as in terms of memory layout, a struct with a single int, is identical to int, and therefore you can cast between IntContainer and an int for a value without and precision lost. In cocoa, a CFType also has an identical memory layout as NSObject 0 this is how it provides Toll-Free bridging.</p>
+
+<p>But how would something with more than one field look? Well, its just contiguous objects in memory, with some extra things for alignment and padding. For example:</p>
+
+<pre><code>typedef struct _NSPoint {
+  CGFloat x;
+  CGFloat y;
+}
+
+NSPoint p;
+p.x = 1.0;
+p.y = 2.0;
+
+
+//Memory
+//[3f][80][00][00] [40][00][00][00]</code></pre>
+
+<p>A pointer (class *), point to another location of memory, for example:</p>
+
+<pre><code>int* pointer;
+*pointer = 0xreadbook;
+
+//Memory
+pointer:05010203  0x05010203:readbook</code></pre>
+
+<p>The * <em>dereferences</em> the pointer, and sets the value at the pointed to address, sort of like forwading the message.</p>
+
+<h3 id='moving_on_to_objectivec'>Moving on to Objective-C</h3>
+
+<p>So, now we&#8217;re ready to look at the memory structure of objective-c, it looks something like this:</p>
+
+<pre><code>struct NSObject {
+  Class isa;
+}</code></pre>
+
+<p>(declaring an @interface is a fancy way of declaring a struct of the same name, and tells the compiler its an objective c class).</p>
+
+<p>isa is just something that points to a class. But what is class? Well, it&#8217;s something that is defined in:</p>
+
+<pre><code>&lt;objc/objc.h&gt;</code></pre>
+
+<p>as a typedef for objc_class*, so NSObject is a single pointer to a class definition.</p>
+
+<p>objc_class, looks something like this:</p>
+
+<pre><code>struct objc_class {
+  Class isa;
+  Class super_class;
+  const char *name;
+  long version;
+  long info;
+  long instance_size;
+  struct objc_ivar_list *ivars;
+  struct objc_method_lists **methodLists;
+  struct objc_cache *cache;
+  struct objc_protocol_list *protocols;
+}</code></pre>
+
+<p>objc_class has an isa of Class type, and it is the same as that of NSObject, so an objc_class is an object, because its memory model is the same, and things like message sending that work on instance objects, also work on objects, reducing the amount of special case code needed to distinguish between the two. It&#8217;s <em>isa</em> field however, points to a <em>metaclass</em> object, which is just another objc_class struct. Every class definition therefore has a class and metaclass definition, this is because a class objects list of methods are for <em>instances</em> of the class, and the metaclass objects list of methods are for <em>class</em> methods.</p>
+
+<p>A metaclass&#8217; isa pointer however, simply terminates the cycle by pointing to itself (We don&#8217;t have metaclass methods yet!).</p>
+
+<h3 id='messaging'>Messaging</h3>
+
+<p>When we start learning objective-c, we are (mostly) taught that our magical brackety code</p>
+
+<pre><code>[self doSomethingTo:var1];</code></pre>
+
+<p>is transformed into something like:</p>
+
+<pre><code>objc_msgSend(self, @selector(doSomethingTo:), var1);</code></pre>
+
+<p>and expected to just accept that it works, until we begin to advance, and start understanding what the runtime is doing to our code.</p>
+
+<p>The objective c runtime is written mainly in C and ASM to add all the amazing object orientated capabilities to C, creating Objecitve-C, this means it handles classes, method dispatch, method forwarding etc, and all the support structures that make it possible.</p>
+
+<p>So, here is some basic runtime terminology and more structs!</p>
+
+<p>A selector in Objective-C is a struct that identifies an Objective-C method you want an object to perform, and defined:</p>
+
+<pre><code>typedef struct objc_selector *SEL</code></pre>
+
+<p>and used like:</p>
+
+<pre><code>SEL select = @selector(doSomething)</code></pre>
+
+<p>So, what is a message? An Objective-C message is everything between the two brackets [], and consists of the target, the method and any arguments. An Objective-C method, whilst similar to methods in C, is different, the fact that you are sending a message to an object, does not mean that it&#8217;ll perform it, the object could dynamically decide based on runtime variables such as the sender, to perform a different method, or forward to a different object.</p>
+
+<pre><code>[target thisIsTheMethod:arg1];</code></pre>
+
+<p>Its decleration would be converted into something like so:</p>
+
+<pre><code>void -[target thisIsTheMethod:](id self, SEL _cmd, NSString* aString)</code></pre>
+
+<p>The only thing different to your objective-c code is that it adds two extra arguments - self and _cmd, and some characters that are usually dissalowed in c ([]-), and if you get hold of a function pointer - you can actually call it in your code (although it isn&#8217;t recommended).</p>
+
+<p>It would then be called like so:</p>
+
+<pre><code>objc_msgSend(target, @selector(thisIsTheMethod:), @” (YOLO)”);</code></pre>
+
+<p>Now, what happens when you use the <span>&#8230;</span> syntax to send a message to an object? The compiler actually transforms that into a call to a function named objc_msgSend() that’s part of the Objective-C runtime. objc_msgSend() takes at least two arguments: the object to send the message to (receiver in Objective-C lingo), and something called a selector, which is simply jargon for &#8221;“&#8221;a method name&#8221;.</p>
+
+<p>A selector is simply a C string, well, not quite, it has the same memory structure - NUL-terminated char * pointer - however the objective-c compiler ensures there is only one instance of the selector in the entire address space.</p>
+
+<h3 id='building_objc_msgsend'>Building objc_msgSend</h3>
+
+<p>You may be interested in seeing how an implementation of objc_msgSend would look, so here goes. In C, the function would look something like this:</p>
+
+<pre><code>id objc_msgSend(id receiver, SEL name, arguments...) {
+  IMP function = class_getMethodImplementation(receiver-&gt;isa, name);
+  return function(arguments);
+}</code></pre>
+
+<p>Although, due to the millions of times a second that this can potentially be called, it would be implemented in meticulously tuned ASM, because it needs to be incredibly fast.</p>
+
+<p>The method class_getMethodImplementation() that, when given a class object and a selector, returns the IMP, a C function implementation for that method. It does this by looking up the class’s method list and returns the IMP that matches the selector. Now that you have an IMP, (the IMP is a C Function pointer), you can call it just like you would any other C function. So, all objc_msgSend() does is grab the receiver’s class object via the isa field, finds the IMP for the selector, and thats it. We have message sending.</p>
+
+<p>If you want to read more about objc_msgSend, I&#8217;d recommend looking <a href='http://www.mikeash.com/pyblog/friday-qa-2012-11-16-lets-build-objc_msgsend.html'>here</a> <a href='http://developer.apple.com/library/ios/#DOCUMENTATION/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html'>and here</a></p>
+
+<p>I hope you enjoyed this post, if you did, please leave a comment down below, or share it on FaceBook/Twitter/HackerNews, it&#8217;s much appreciated :)</p>
+</div>
+
+        </div>
+    </div>
+        <div class="footer">
+            
+            <div class="wrapper">
+                &copy; 2013 Daniel Tomlinson. The source is available on <a href="http://github.com/danieltomlinson/danie.lt">GitHub</a>, and my site is hosted on <a href="https://www.digitalocean.com/?refcode=c08ece9c0af1">DigitalOcean</a>.<br />
+                You should grab the <a href="/atom">RSS feed</a> and follow me on <a href="http://twitter.com/dantoml">Twitter</a>.
+            </div>
+        </div>
+      
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-42824390-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+
+
+
+        <script type="text/javascript">
+            var GoSquared = {acct: "GSN-596286-H"};
+            (function(w){
+                function gs(){
+                    w._gstc_lt = +new Date;
+                    var d = document, g = d.createElement("script");
+                    g.type = "text/javascript";
+                    g.src = "//d1l6p2sc9645hc.cloudfront.net/tracker.js";
+                    var s = d.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(g, s);
+                }
+                w.addEventListener ? w.addEventListener("load", gs, false) : w.attachEvent("onload", gs);
+            })(window);
+        </script>
+    
+
+        <!-- build:js /assets/scripts/main.js -->
+        <script src="/bower_components/jquery/jquery.js"></script>
+        <script src="/assets/scripts/main.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

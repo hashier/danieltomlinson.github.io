@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Introduction to Objective-C and iOS Dev - Daniel Tomlinson</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:js /assets/scripts/vendor/modernizr.js -->
+        <script src="/bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:css /assets/styles/main.css -->
+        <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css">
+        <link rel="stylesheet" href="/assets/styles/h5bp.css">
+        <link rel="stylesheet" href="/bower_components/font-awesome/build/assets/font-awesome/css/font-awesome.css">
+        <!-- endbuild -->
+</head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="pagewrap">
+        <div class="wrapper">
+        
+        <header class="page-head">
+            
+            <a href="/" title="Return to homepage" class="site-name">
+               <h1>Daniel Tomlinson</h1>
+            </a>
+            
+            <ul class="nav  site-nav">
+                <li class=""><a href="/">Home</a></li><!--
+             --><li class=""><a href="/about/">About</a></li><!--
+             --><li class=""><a href="/contact/">Contact</a></li>
+            </ul>
+            
+        </header><!-- /page-head -->
+        <hr />
+        </div><!-- /wrapper -->
+        
+        <div class="wrapper about">
+                Daniel is an <span>iOS Engineer</span>, <span>Back-end Web Developer</span>, <span>Writer</span> and <span>Speaker</span>, from the UK; He creates new experiences for people and is currently working to create a better future through technology with ProjectHermes, and is <a href="mailto:daniel@shadowdevelopments.co.uk?subject=Let%E2%80%99s%20work%20together">available</a> for work from the 1st of November.
+                <hr />
+        </div>
+        
+        <div class="wrapper">
+<div id="content">
+<p>Objective-C is a reflective, compiled, Object-Oriented programming language that adds Smalltalk-Style messaging to C. It also tries to do as much as it can dynamically at runtime, rather than at compile time, this allows it to be used in many scenarios - such as its most common use - in applications for Mac OS X and iOS.</p>
+
+<p>To develop for iOS or Mac OS X, you need to have Xcode installed, this can be acquired from the Mac App Store at no cost to yourself, <a href='https://itunes.apple.com/gb/app/xcode/id497799835?mt=12'>Xcode (App Store)</a>. To debug on a device, or to publish an application on the app store, you also need an iOS developer license.</p>
+
+<p>A standard convention in objective-c is camelCasing of method and variable names and CapsCasing of class names, as opposed to underscore_formatting, adopting this in your code keeps things consistent and readable.</p>
+
+<h4 id='methods'>Methods</h4>
+
+<p>One of the first things you will want to do is call methods, in objective-c, the basic syntax for this is:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='p'>[</span><span class='n'>object</span> <span class='n'>method</span><span class='p'>];</span>
+<span class='p'>[</span><span class='n'>object</span> <span class='n'>methodWithInput</span><span class='o'>:</span><span class='n'>input</span><span class='p'>];</span>
+</code></pre></div>
+<p>Methods can return objects:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='n'>output</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>object</span> <span class='n'>methodWithOutput</span><span class='p'>];</span>
+<span class='n'>output</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>object</span> <span class='n'>methodWithInputAndOutput</span><span class='o'>:</span><span class='n'>input</span><span class='p'>];</span>
+</code></pre></div>
+<p>You can also call methods on classes for example:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='kt'>id</span> <span class='n'>anObject</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>NSURL</span> <span class='n'>urlWithString</span><span class='o'>:</span><span class='s'>@&quot;http://iosdev.danie.lt/articles/welcome&quot;</span><span class='p'>];</span>
+</code></pre></div>
+<p>In Objective-C, the <em>id</em> type means that the <em>anObject</em> variable can refer to any type of object, and its class, methods and properties are not known at compile time.</p>
+
+<p>In that example, it&#8217;s clear that the return type will be an <em>NSURL</em>, so we can change it to:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='n'>NSURL</span><span class='o'>*</span> <span class='n'>myURL</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>NSURL</span> <span class='n'>urlWithString</span><span class='o'>:</span><span class='s'>@&quot;http://iosdev.danie.lt/articles/welcome&quot;</span><span class='p'>];</span>
+</code></pre></div>
+<p>Methods can also accept multiple inputs, for example:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='n'>Person</span><span class='o'>*</span> <span class='n'>aPerson</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>Person</span> <span class='n'>personWithFirstName</span><span class='o'>:</span><span class='n'>firstName</span> <span class='n'>surname</span><span class='o'>:</span><span class='n'>surname</span> <span class='n'>age</span><span class='o'>:</span><span class='n'>age</span><span class='p'>];</span>
+</code></pre></div>
+<h4 id='variables_and_pointers'>Variables and Pointers</h4>
+
+<p>Nearly all variables in objective-c are objects (other than primitive types such as <em>int</em>, <em>float</em> and <em>double</em>), more correctly, they are <em>pointers</em> to objects, the * in an objects deceleration is what specifies a pointer type, <em>id</em> is predefined as a pointer, hence its omission, for example:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='kt'>id</span> <span class='n'>myVariable</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>anArray</span> <span class='n'>lastObject</span><span class='p'>];</span>
+<span class='kt'>int</span> <span class='n'>x</span> <span class='o'>=</span> <span class='mi'>42</span><span class='p'>;</span>
+<span class='n'>NSNumber</span><span class='o'>*</span> <span class='n'>aNumber</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>NSNumber</span> <span class='n'>numberWithInt</span><span class='o'>:</span><span class='n'>x</span><span class='p'>];</span>
+</code></pre></div>
+<h4 id='declaring_methods'>Declaring methods</h4>
+
+<p>Public methods, are declared in a classes header (classname.h) file, and implemented in the classes implementation (classname.m), although private methods can be written straight into the implementation file.</p>
+
+<p>In Objective-C, class methods are declared in the header like so:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='c1'>// The + means class method</span>
+<span class='k'>+</span> <span class='p'>(</span><span class='n'>NSNumber</span> <span class='o'>*</span><span class='p'>)</span> <span class='nf'>numberWithInt:</span><span class='p'>(</span><span class='kt'>int</span><span class='p'>)</span><span class='nv'>aInt</span><span class='p'>;</span>
+</code></pre></div>
+<p>and implemented in the implementation file like so:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='k'>+</span> <span class='p'>(</span><span class='n'>NSNumber</span> <span class='o'>*</span><span class='p'>)</span> <span class='nf'>numberWithInt:</span><span class='p'>(</span><span class='kt'>int</span><span class='p'>)</span><span class='nv'>aInt</span> <span class='p'>{</span>
+    <span class='k'>return</span> <span class='p'>[[</span><span class='n'>NSNumber</span> <span class='n'>alloc</span><span class='p'>]</span> <span class='n'>initWithInt</span><span class='o'>:</span><span class='n'>aInt</span><span class='p'>];</span>
+<span class='p'>}</span>
+</code></pre></div>
+<p>and are often used for convenience initialisers, for example, NSURL (The cocoa class for URLs), has:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='k'>+</span> <span class='p'>(</span><span class='n'>NSURL</span> <span class='o'>*</span><span class='p'>)</span><span class='nf'>URLWithString:</span><span class='p'>(</span><span class='n'>NSString</span> <span class='o'>*</span><span class='p'>)</span><span class='nv'>stringURL</span><span class='p'>;</span> 
+</code></pre></div>
+<p>to simplify the allocation and initialisation of NSURLs.</p>
+
+<p>Below you can see three method declarations</p>
+<div class='highlight'><pre><code class='objectivec'><span class='c1'>// - means that it is an instance method</span>
+<span class='k'>-</span> <span class='p'>(</span><span class='kt'>void</span><span class='p'>)</span> <span class='nf'>doSomething</span><span class='p'>;</span>
+<span class='k'>-</span> <span class='p'>(</span><span class='kt'>void</span><span class='p'>)</span> <span class='nf'>doSomethingWithAString:</span><span class='p'>(</span><span class='n'>NSString</span> <span class='o'>*</span><span class='p'>)</span><span class='nv'>aString</span><span class='p'>;</span>
+<span class='k'>-</span> <span class='p'>(</span><span class='kt'>void</span><span class='p'>)</span> <span class='nf'>doSomethingWithAString:</span><span class='p'>(</span><span class='n'>NSString</span> <span class='o'>*</span><span class='p'>)</span><span class='nv'>aString</span> <span class='nf'>andInteger:</span><span class='p'>(</span><span class='kt'>int</span><span class='p'>)</span><span class='nv'>aInt</span><span class='p'>;</span>
+</code></pre></div>
+<p>These would be implemented like so:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='k'>-</span> <span class='p'>(</span><span class='kt'>void</span><span class='p'>)</span> <span class='nf'>doSomething</span> <span class='p'>{</span>
+    <span class='n'>NSLog</span><span class='p'>(</span><span class='s'>@&quot;Hello!&quot;</span><span class='p'>);</span>
+<span class='p'>}</span>
+
+<span class='k'>-</span> <span class='p'>(</span><span class='kt'>void</span><span class='p'>)</span> <span class='nf'>doSomethingWithAString:</span><span class='p'>(</span><span class='n'>NSString</span> <span class='o'>*</span><span class='p'>)</span><span class='nv'>aString</span> <span class='p'>{</span>
+    <span class='n'>NSLog</span><span class='p'>(</span><span class='s'>@&quot;Logging a string! %@&quot;</span><span class='p'>,</span> <span class='n'>aString</span><span class='p'>);</span>
+<span class='p'>}</span>
+    
+<span class='k'>-</span> <span class='p'>(</span><span class='kt'>void</span><span class='p'>)</span> <span class='nf'>doSomethingWithAString:</span><span class='p'>(</span><span class='n'>NSString</span> <span class='o'>*</span><span class='p'>)</span><span class='nv'>aString</span> <span class='nf'>andInteger:</span><span class='p'>(</span><span class='kt'>int</span><span class='p'>)</span><span class='nv'>aInt</span> <span class='p'>{</span>
+    <span class='n'>NSLog</span><span class='p'>(</span><span class='s'>@&quot;Logging a string: %@ and Integer: %d&quot;</span><span class='p'>,</span> <span class='n'>aString</span><span class='p'>,</span> <span class='n'>aInt</span><span class='p'>);</span>
+<span class='p'>}</span>
+</code></pre></div>
+<h4 id='shorthand_nsstring_nsdictionary_nsarray_and_nsnumber'>Shorthand NSString, NSDictionary, NSArray and NSNumber.</h4>
+
+<p>In objective-c, there are shorthand ways to declare strings, dictionaries, arrays and numbers, for example:</p>
+
+<p><div class='highlight'><pre><code class='objectivec'><span class='n'>NSString</span> <span class='o'>*</span><span class='n'>myString</span> <span class='o'>=</span> <span class='s'>@&quot;Hello!&quot;</span><span class='p'>;</span>
+<span class='n'>NSArray</span> <span class='o'>*</span><span class='n'>myArray</span> <span class='o'>=</span> <span class='err'>@</span><span class='p'>[</span><span class='n'>object1</span><span class='p'>,</span> <span class='n'>object2</span><span class='p'>,</span> <span class='n'>object3</span><span class='p'>];</span>
+<span class='n'>NSDictionary</span> <span class='o'>*</span><span class='n'>myDict</span> <span class='o'>=</span> <span class='err'>@</span><span class='p'>{</span> <span class='s'>@&quot;key&quot;</span><span class='o'>:</span> <span class='n'>anObject</span><span class='p'>,</span> <span class='s'>@&quot;anotherKey&quot;</span> <span class='o'>:</span> <span class='n'>anotherObjectOrValue</span> <span class='p'>};</span>
+<span class='n'>NSNumber</span> <span class='o'>*</span><span class='n'>number</span> <span class='o'>=</span> <span class='mi'>@42</span><span class='p'>;</span>
+</code></pre></div></p>
+
+<p>These are especially useful when used in method calls:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='kt'>id</span> <span class='n'>anObject</span> <span class='o'>=</span> <span class='p'>[</span><span class='n'>object</span> <span class='n'>objectWithArray</span><span class='o'>:</span><span class='err'>@</span><span class='p'>[</span><span class='n'>values</span><span class='p'>,</span><span class='k'>for</span><span class='p'>,</span><span class='n'>array</span><span class='p'>]];</span>
+</code></pre></div>
+<h4 id='loggingdebugging'>Logging/Debugging</h4>
+
+<p>You can also log messages to the console in Xcode, this is extremely useful for debugging, and its NSLog() function is almost identical to the printf() function in C, but has <strong>%@</strong> for logging objects.</p>
+
+<p>When you log an object to the console, it calls the <strong>description</strong> method that returns the string to log.</p>
+
+<p>It is called like so:</p>
+<div class='highlight'><pre><code class='objectivec'><span class='n'>NSLog</span> <span class='p'>(</span><span class='s'>@&quot;The value of a string is: %@, the value of a float is: %f, the value of an int is: %d and the current date and time is: %@&quot;</span><span class='p'>,</span> <span class='n'>aString</span><span class='p'>,</span> <span class='n'>aFloat</span><span class='p'>,</span> <span class='n'>aInt</span><span class='p'>,</span> <span class='p'>[</span><span class='n'>NSDate</span> <span class='n'>date</span><span class='p'>]);</span>
+</code></pre></div>
+<h4 id='next_step'>Next step</h4>
+
+<p>I&#8217;d recommend trying out <a href='http://developer.apple.com/library/ios/#referencelibrary/GettingStarted/RoadMapiOS/chapters/RM_YourFirstApp_iOS/Articles/01_CreatingProject.html'>First iOS App (Apple Developer Docs)</a> to get a good basis for how Xcode and how the above things work in practice.</p>
+
+<p>And looking <a href='http://cocoadevcentral.com/d/learn_objectivec/'>here</a> for more refences.</p>
+</div>
+
+        </div>
+    </div>
+        <div class="footer">
+            
+            <div class="wrapper">
+                &copy; 2013 Daniel Tomlinson. The source is available on <a href="http://github.com/danieltomlinson/danie.lt">GitHub</a>, and my site is hosted on <a href="https://www.digitalocean.com/?refcode=c08ece9c0af1">DigitalOcean</a>.<br />
+                You should grab the <a href="/atom">RSS feed</a> and follow me on <a href="http://twitter.com/dantoml">Twitter</a>.
+            </div>
+        </div>
+      
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-42824390-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+
+
+
+        <script type="text/javascript">
+            var GoSquared = {acct: "GSN-596286-H"};
+            (function(w){
+                function gs(){
+                    w._gstc_lt = +new Date;
+                    var d = document, g = d.createElement("script");
+                    g.type = "text/javascript";
+                    g.src = "//d1l6p2sc9645hc.cloudfront.net/tracker.js";
+                    var s = d.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(g, s);
+                }
+                w.addEventListener ? w.addEventListener("load", gs, false) : w.attachEvent("onload", gs);
+            })(window);
+        </script>
+    
+
+        <!-- build:js /assets/scripts/main.js -->
+        <script src="/bower_components/jquery/jquery.js"></script>
+        <script src="/assets/scripts/main.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
