@@ -1,0 +1,14 @@
+---
+layout: default
+title: "Articles"
+footer: true
+---
+<ul class="post-list">
+    {% for post in site.posts %}
+        <li>
+        {{ post.date | date: "%B %e, %Y" }}<br />
+        <a href="{{ post.url }}">{{ post.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
