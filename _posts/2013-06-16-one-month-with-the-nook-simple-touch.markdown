@@ -13,7 +13,7 @@ A short while ago, around a month or so, Barnes and Noble lowered the price of t
 The device began to impress from the moment I opened the box, it's well built, comfortable to hold and lightweight, checking all my mental requirements for something to compete with a good old printed book. It's packaging is strong, and high quality, as are its included accessories (i.e the USB cable).
 
 ## First Impressions ##
-When the device first arrives you have to leave it to charge for an hour or so, but after this you a free to purchase books from the store, or copy in your existing epub collection.
+When the device first _arrives_ you have to leave it to charge for an hour or so, but after **this you a free to purchase** books from the store, or copy in your existing epub *collection*.
 
 The setup experience is mostly good, apart from my accidental tendency to accidentally hit the back button that is located on the bottom left of the keyboard (this seems really strange to me), and meant it took about 10 mins to fill in my debit card details.
 
