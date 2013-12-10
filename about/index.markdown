@@ -23,4 +23,4 @@ I've also released a few things of my own (defunct apps are those that I stopped
 - Elementary (defunct)
 - WeatherApp (defunct)
 
-If you'd like to talk, you can email me: [DanielTomlinson@me.com](mailto:DanielTomlinson@me.com)
+If you'd like to talk, you can email me: [Dan@Tomlinson.io](mailto:Dan@Tomlinson.io)
