@@ -7,15 +7,6 @@ categories: [Life, Bullying]
 ---
 
 # Bullying
----
-layout: post
-title: "Bullying"
-date: 2014-01-26 03:19
-comments: false
-categories: [Life, Bullying]
----
-
-# Bullying
 It’s only now, as I prepare to leave the place where I grew up to start my next adventure in life, that I feel I can share my past with the world. My hope it that someone like me comes across this, and they know that they are not alone. They will never be alone. And there is always a positive way out.
 
 ----
